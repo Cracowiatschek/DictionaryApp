@@ -1,65 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DictionaryApp</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</head>
-<body>
-    <!-- Navbar z formularzem logowania -->
-        <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">Dictionary App</a>
-            <ul id="nav-mobile" style="margin-right: 10px" class="right hide-on-med-and-down">
-                <!-- Formularz logowania w navbarze -->
-                <li>
-                    <form action="/login" method="POST" class="right">
-                        <div class="input-field inline">
-                            <input type="text" id="username" name="username" required>
-                            <label for="username">Username</label>
-                        </div>
-                        <div class="input-field inline">
-                            <input type="password" id="password" name="password" required>
-                            <label for="password">Password</label>
-                        </div>
-                        <button type="submit" class="btn waves-effect waves-light">Login</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Tabela i pozostała zawartość strony -->
-    <div class="container">
-        <h3 class="center-align">Dynamic Table with Local Materialize</h3>
-        <!-- Tabela -->
-        <table class="striped highlight">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Editable Column</th>
-                    <th>Dropdown 1</th>
-                    <th>Dropdown 2</th>
-                    <th>Dropdown 3</th>
-                    <th>Dropdown 4</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <!-- Wiersze będą dodawane dynamicznie -->
-            </tbody>
-        </table>
-        <button id="submit-btn" class="btn waves-effect waves-light">Submit</button>
+{% block content %}
+<div class="{{ session.get("table") }}">
 
+    {% if session.get("loading") %}
+    <meta http-equiv="refresh" content="1;url={{ url_for('get_data') }}">
+    <div style="margin-top: 10%" class="progress">
+        <div class="indeterminate"></div>
     </div>
+    {% elif session.get("hasData") %}
+    {% if campaigns|length <= 30 %}
+    <div style="margin-left:auto; margin-right:auto; width:50em">
+    {% elif campaigns|length <= 40 %}
+    <div style="margin-left:auto; margin-right:auto; width:60em">
+    {% elif campaigns|length <= 50 %}
+    <div style="margin-left:auto; margin-right:auto; width:70em">
+    {% else %}
+    <div style="margin-left:auto; margin-right:auto; width:80em">
+    {% endif %}
+        <form id="camp-filter" action="/campaign-filter" method="POST">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicjalizacja dropdown
-            const elems = document.querySelectorAll('.dropdown-trigger');
-            const instances = M.Dropdown.init(elems);
-        });
-    </script>
-</body>
-</html>
+        </form>
+    <form id="camp-picker-form" action="/make-table" method="POST" style="justify-content: center; align-items: center;">
+            <div class="row">
+                <div class="input-field col s7">
+                    <input placeholder="Wyszukaj" id="input-camp-filter" name="filter" type="text" class="validate">
+                </div>
+                <div class="col s1">
+                    <p>
+                        <label>
+                            <input type="checkbox" name="rt"/>
+                            <span>RT</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s2">
+                    <p>
+                        <label>
+                            <input type="checkbox" name="batch"/>
+                            <span>BATCH</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s2">
+                    <button type="submit" class="btn waves-effect waves-light blue-grey darken-1" value="filter">Filtruj</button>
+                </div>
+            </div>
+            <div class="horizontal-scroll-container" style="display:flex">
+                {% for col in range(0, campaigns|length, 10) %}
+                <div style="margin-left: 1%">
+                    <ul>
+                    {% for camp_id in range(col, [col+10, campaigns|length]|min) %}
+                        {% if campaigns[camp_id].person %}
+                        <li>
+                            <label>
+                                <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
+                                    <span>
+                                    {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }} [{{campaigns[camp_id].person}}]
+                                    </span>
+                            </label>
+                        </li>
+                        {% else %}
+                        <li>
+                            <label>
+                                <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
+                                    <span>
+                                    {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }}
+                                    </span>
+                            </label>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        <button type="submit" class="btn waves-effect waves-light blue-grey darken-1" value="edit">Edytuj</button>
+    </form>
+        {% if session.get("loading-table") %}
+            {% if session.get("table-off") %}
+            {% else %}
+            <meta http-equiv="refresh" content="1;url={{ url_for('get_data') }}">
+            <div style="margin-top: 10%" class="progress">
+                <div class="indeterminate"></div>
+            </div>
+            {% endif %}
+        {% else %}
+
+        {% endif %}
+    </div>
+    {% else %}
+    <p>Zaloguj się, aby pobrać dane.</p>
+    {% endif %}
+</div>
+{% endblock %}
