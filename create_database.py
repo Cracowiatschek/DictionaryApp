@@ -2,15 +2,15 @@ from models import db, Camapign
 from app import app
 
 kampanie = {
-    "Wiosenny_Rabat":["sell", "kred",True,"Piotr"],
-    "Zimowa_Promocja":["act", "dep", False,"Andrzej"],
+    "Wiosenny_Rabat":["sell", "kred",True,"Piotr Beczka"],
+    "Zimowa_Promocja":["act", "dep", False,"Andrzej Ciemny"],
     "Black_Friday_2024":["ret", "dep",True],
     "Cyber_Monday_Sale":["ret", "kred", False],
-    "Letnia_Wyprzedaż":["act", "kred",True,"Piotr"],
-    "Noworoczna_Oferta":["sell", "kred",True,"Krzysiek"],
+    "Letnia_Wyprzedaż":["act", "kred",True,"Piotr Krzyżanowski"],
+    "Noworoczna_Oferta":["sell", "kred",True,"Krzysiek Kudłaty"],
     "Dni_Otwarte":["act", "dep",True],
     "Świąteczne_Rabaty":["ret", "kred", False],
-    "Powrót_do_Szkoły":["act", "dep",True,"Asia"],
+    "Powrót_do_Szkoły":["act", "dep",True,"Asia Rycz"],
     "Długi_Weekend_Promocja":["ret", "kred",True],
     "Tydzień_Super_Ofert":["act", "kred",True],
     "Happy_Hour_Rabaty":["act", "kred",True],

@@ -7,6 +7,7 @@
     <!-- Dodaj MaterializeCSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <style>
 <!--        body {-->
@@ -30,6 +31,16 @@
             width: 100%;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+      });
+
+        $(document).ready(function(){
+        $('.collapsible').collapsible();
+      });
+    </script>
 </head>
 <body>
     <!-- Dołączenie navbaru -->
