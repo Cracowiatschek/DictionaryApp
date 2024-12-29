@@ -35,23 +35,23 @@
                         <td>
                             {% if editable[camp_id].offline %}
                                 {% if editable[camp_id].camp_name %}
-                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}">
+                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}"  onchange="this.form.submit()">
                                 {% else %}
-                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate">
+                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" onchange="this.form.submit()">
                                 {% endif %}
                             {% else %}
                                 {% if editable[camp_id].camp_name %}
-                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}">
+                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}" onchange="this.form.submit()">
                                 {% else %}
-                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate">
+                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" onchange="this.form.submit()">
                                 {% endif %}
                             {% endif %}
                         </td>
                         <td>
                             {% if editable[camp_id].offline %}
-                            <select disabled name="{{editable[camp_id].id}}-person">
+                            <select disabled name="{{editable[camp_id].id}}-person" onchange="this.form.submit()">
                             {% else %}
-                            <select name="{{editable[camp_id].id}}-person">
+                            <select name="{{editable[camp_id].id}}-person" onchange="this.form.submit()">
                             {% endif %}
                                 {% if editable[camp_id].person %}
                                     <option value="" disabled>Wybierz opiekuna</option>
