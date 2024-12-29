@@ -37,8 +37,7 @@ def index():
         content["campaign"] = [i for i in content["campaign"] if i.saved is False]
         filter_campaign = content["campaign"]
         all_campaigns = content["campaign"]
-        # for i,x in enumerate(filter_campaign):
-        #     print(filter_campaign[i])
+
         if "searchPlaceholder" in session:
             filter_campaign = [camp for i,camp in enumerate(filter_campaign) if
                             session.get("searchPlaceholder").upper() in filter_campaign[i].name.upper()]
@@ -55,7 +54,6 @@ def index():
 
     if "editable" in content.keys():
         editable = content["editable"][session["min_id"]:session["max_id"]]
-        print(editable, content["editable"])
 
     return render_template("index.html", navbar_class=navbar_class, campaigns=filter_campaign,
                            all_campaigns = all_campaigns, editable = editable)
@@ -122,6 +120,7 @@ def get_data():
 def pick_data():
     action = request.args.get('action')
     data = request.args.get('data')
+    session.pop("saved", None)
 
     for i,x in enumerate(content["campaign"]):
         content["campaign"][i].id = i+1
@@ -277,6 +276,8 @@ def send_data():
     update_changes(request.form)
 
     if request.form.get("save"):
+        if "errors" in session:
+            session.pop("errors", None)
         update_changes(request.form)
         correct_state = 0
         for row in content["editable"]:
@@ -292,8 +293,11 @@ def send_data():
                     correct_state += 1
 
         if correct_state == 0:
+            if "errors" in session:
+                session.pop("errors", None)
             return render_template("save_data.html")
         else:
+            session["errors"] = True
             return redirect(url_for("index"))
 
 
@@ -315,14 +319,14 @@ def send_data():
     if action == "page":
         if data.isdigit():
             session["page"] = int(data)
-            session["min_id"] = session["page"] * session["page_size"]
-            session["max_id"] = min(session["min_id"] + session["page_size"], len(content["editable"]))
-
         else:
             if data == "left" and session["page"] > session["min_page"]:
                 session["page"] -= 1
-            elif data == "right" and session["page"] < session["max_page"]:
+            elif data == "right" and session["page"] < session["max_page"]-1:
                 session["page"] += 1
+
+        session["min_id"] = session["page"] * session["page_size"]
+        session["max_id"] = min(session["min_id"]+session["page_size"], len(content["editable"]))
 
     return redirect(url_for("index"))
 
@@ -335,7 +339,10 @@ def save_data():
         i.wrong = False
         if i.offline is False:
             i.saved = True
+        if i.offline is True:
+            i.offline = False
     content.pop("editable", None)
+    session["saved"] = True
     return redirect(url_for("index"))
 
 

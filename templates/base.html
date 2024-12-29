@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Navbar</title>
+    <title>DictionaryApp</title>
     <!-- Dodaj MaterializeCSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,6 +30,16 @@
 
     <!-- Miejsce na zawartość strony -->
     <div class="container" style="margin-top: 20px;">
+        {% if session.get("saved") %}
+            <div class="card green darken-3">
+                <div class="card-content white-text">
+                    <span class="card-title">Zapisano!</span>
+                    <p>Twoje dane przetworzono. Oczekuj ich w raporcie!</p>
+                </div>
+            </div>
+        {% else %}
+        {% endif %}
+
         {% block content %}{% endblock %}
     </div>
 

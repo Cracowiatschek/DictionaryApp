@@ -1,5 +1,14 @@
 {% if session.get("render_table") %}
     <div style="margin-left: 2%; margin-right: 2%">
+        {% if session.get("errors") %}
+            <div class="card red darken-4">
+                <div class="card-content white-text">
+                    <span class="card-title">Błąd zapisu!</span>
+                    <p>Wykryto błędy, sprawdź podświetlone wiersze.</p>
+                </div>
+            </div>
+        {% else %}
+        {% endif %}
         <form id="input-data-form" action="/send-data" method="POST" style="justify-content: center; align-items: center;">
             <table>
                 <thead>
@@ -206,7 +215,7 @@
                                     </a>
                                 </li>
                             {% endfor %}
-                        {% if session.get('page') == session.get('max_page') %}
+                        {% if session.get('page') == session.get('max_page')-1 %}
                             <li class="disabled">
                         {% else %}
                             <li>
