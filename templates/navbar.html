@@ -1,5 +1,9 @@
 <nav>
-    <div id="x" class="nav-wrapper {{ navbar_class }}">
+    {% if session.get("save_active") %}
+    <div class="nav-wrapper yellow darken-3">
+    {% else %}
+    <div class="nav-wrapper {{ navbar_class }}">
+        {% endif %}
         <a href="#" class="brand-logo center">Dictionary App</a>
         <ul id="nav-mobile" style="margin-right: 10px" class="right hide-on-med-and-down">
             <li>

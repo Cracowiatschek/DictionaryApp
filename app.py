@@ -22,11 +22,15 @@ def index():
     if session.get("logged_in") is True:
         session["table"] = ""
         navbar_class = "green darken-2"
+        if session.get("save_active"):
+            session.pop("save_active")
 
     if session.get("logged_in") is False:
         session.pop("loading", None)
         session.pop("hasData", None)
         navbar_class = "red darken-3"
+
+
 
     filter_campaign = ""
     all_campaigns = ""
@@ -100,6 +104,7 @@ def logout():
     session.pop("hasData", None)
     session.pop("data", None)
     session.pop("render_table", None)
+    session.pop("saved", None)
     content.pop("editable", None)
     return redirect(url_for("index"))
 
@@ -132,6 +137,9 @@ def pick_data():
     if request.form.get("filter-button"):
         if request.form.get("filter"):
             session["searchPlaceholder"] = request.form.get("filter")
+        else:
+            if session.get("searchPlaceholder"):
+                session.pop("searchPlaceholder")
 
         if request.form.get("rt"):
             session["searchRT"] = request.form.get("rt")
@@ -295,6 +303,7 @@ def send_data():
         if correct_state == 0:
             if "errors" in session:
                 session.pop("errors", None)
+            session["save_active"] = True
             return render_template("save_data.html")
         else:
             session["errors"] = True
@@ -341,8 +350,10 @@ def save_data():
             i.saved = True
         if i.offline is True:
             i.offline = False
-    content.pop("editable", None)
+    if "save_active" in session:
+        session.pop("save_active", None)
     session["saved"] = True
+    content.pop("editable", None)
     return redirect(url_for("index"))
 
 

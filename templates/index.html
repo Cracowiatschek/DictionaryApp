@@ -17,21 +17,23 @@
         <div style="margin-left:auto; margin-right:auto; width:80em">
         {% endif %}
             <ul class="collapsible">
-                <a href="/pick-data?action=show">
+
                 {% if session.get('pick_active') %}
                     <li class="active">
                     {% else %}
                     <li>
                     {% endif %}
+                        <a href="/pick-data?action=show">
                         <div class="collapsible-header">
                             <i class="material-icons">assignment_turned_in</i>Wybierz elementy
                         </div>
+                        </a>
                         <div class="collapsible-body">
                             <form id="camp-picker-form" action="/pick-data" method="POST" style="justify-content: center; align-items: center;">
                                 <div class="row">
                                     <div class="input-field col s7">
                                         {% if session.get("searchPlaceholder") %}
-                                            <input placeholder="{{ session.get("searchPlaceholder") }}" id="input-camp-filter" name="filter" type="text" class="validate">
+                                            <input placeholder="{{ session.get("searchPlaceholder") }} (kliknij 'Filtruj', aby wyszukać nowe, lub przywrócić listę)" id="input-camp-filter" name="filter" type="text" class="validate">
                                         {% else %}
                                             <input placeholder="Wyszukaj" id="input-camp-filter" name="filter" type="text" class="validate">
                                         {% endif %}
@@ -138,7 +140,6 @@
                             </form>
                         </div>
                     </li>
-                </a>
             </ul>
         </div>
     </div>
