@@ -1,0 +1,260 @@
+{% if session.get("render_table") %}
+    <div style="margin-left: 2%; margin-right: 2%">
+        <form id="input-data-form" action="/send-data" method="POST" style="justify-content: center; align-items: center;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>merge-key</th>
+                        <th>Nazwa kampanii</th>
+                        <th>Osoba wykonująca</th>
+                        <th>LV1</th>
+                        <th>LV2</th>
+                        <th>LV3</th>
+                        <th>LV4</th>
+                        <th>Typ sukcesu</th>
+                        <th>Anuluj</th>
+                    </tr>
+                </thead>
+                {% for camp_id in range(editable|length) %}
+                <tbody>
+                    {% if editable[camp_id].wrong %}
+                    <tr class="red lighten-3">
+                    {% else %}
+                    <tr>
+                    {% endif %}
+                        <td>{{editable[camp_id].name}}</td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                                {% if editable[camp_id].camp_name %}
+                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}">
+                                {% else %}
+                                    <input disabled placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate">
+                                {% endif %}
+                            {% else %}
+                                {% if editable[camp_id].camp_name %}
+                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate" value="{{editable[camp_id].camp_name}}">
+                                {% else %}
+                                    <input placeholder="Wymagane" id="{{editable[camp_id].id}}" name="{{editable[camp_id].id}}-camp_name" type="text" class="validate">
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-person">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-person">
+                            {% endif %}
+                                {% if editable[camp_id].person %}
+                                    <option value="" disabled>Wybierz opiekuna</option>
+                                {% else %}
+                                    <option value="" selected disabled>Wybierz opiekuna</option>
+                                {% endif %}
+                                {% for person in session.get("person")%}
+                                    {% if person == editable[camp_id].person %}
+                                        <option selected value="{{person}}">{{person}}</option>
+                                    {% else %}
+                                        <option value="{{person}}">{{person}}</option>
+                                    {%endif%}
+                                {%endfor%}
+                            </select>
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-lv1" onchange="this.form.submit()">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-lv1" onchange="this.form.submit()">
+                            {% endif %}
+                                {% if editable[camp_id].lv1 is none %}
+                                    <option value="" selected disabled>Wybierz LV1</option>
+                                {% else %}
+                                    <option value="" disabled>Wybierz LV1</option>
+                                {% endif %}
+                                {% for lv in session.get("lv_1")%}
+                                        {% if lv == editable[camp_id].lv1 %}
+                                        <option selected value="{{lv}}">{{lv}}</option>
+                                    {% else %}
+                                        <option value="{{lv}}">{{lv}}</option>
+                                    {%endif%}
+                                {%endfor%}
+                            </select>
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-lv2" onchange="this.form.submit()">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-lv2" onchange="this.form.submit()">
+                            {% endif %}
+                                {% if editable[camp_id].lv2 is none %}
+                                    <option value="" selected disabled>Wybierz LV2</option>
+                                {% else %}
+                                    <option value="" disabled>Wybierz LV2</option>
+                                {% endif %}
+
+                                {% for lv in editable[camp_id].lv2_options %}
+                                    {% if lv == editable[camp_id].lv2 %}
+                                        <option selected value="{{lv}}">{{lv}}</option>
+                                    {% else %}
+                                        <option value="{{lv}}">{{lv}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-lv3" onchange="this.form.submit()">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-lv3" onchange="this.form.submit()">
+                            {% endif %}
+                                {% if editable[camp_id].lv3 is none %}
+                                    <option value="" selected disabled>Wybierz LV3</option>
+                                {% else %}
+                                    <option value="" disabled>Wybierz LV3</option>
+                                {% endif %}
+                                {% for lv in editable[camp_id].lv3_options %}
+                                        {% if lv == editable[camp_id].lv3 %}
+                                        <option selected value="{{lv}}">{{lv}}</option>
+                                    {% else %}
+                                        <option value="{{lv}}">{{lv}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-lv4" onchange="this.form.submit()">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-lv4" onchange="this.form.submit()">
+                            {% endif %}
+                                {% if editable[camp_id].lv4 is none %}
+                                    <option value="" selected disabled>Wybierz LV4</option>
+                                {% else %}
+                                    <option value="" disabled>Wybierz LV4</option>
+                                {% endif %}
+                                {% for lv in editable[camp_id].lv4_options %}
+                                        {% if lv == editable[camp_id].lv4 %}
+                                        <option selected value="{{lv}}">{{lv}}</option>
+                                    {% else %}
+                                        <option value="{{lv}}">{{lv}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            {% if editable[camp_id].offline %}
+                            <select disabled name="{{editable[camp_id].id}}-succType" onchange="this.form.submit()">
+                            {% else %}
+                            <select name="{{editable[camp_id].id}}-succType" onchange="this.form.submit()">
+                            {% endif %}
+                                {% if editable[camp_id].succType is none %}
+                                    <option value="" selected disabled>Wybierz sukces</option>
+                                {% else %}
+                                    <option value="" disabled>Wybierz sukces</option>
+                                {% endif %}
+                                {% for succ in session.get("succType")%}
+                                        {% if succ == editable[camp_id].succType %}
+                                        <option selected value="{{succ}}">{{succ}}</option>
+                                    {% else %}
+                                        <option value="{{succ}}">{{succ}}</option>
+                                    {%endif%}
+                                {%endfor%}
+                            </select>
+                        </td>
+                        <td>
+                            <div class="switch">
+                            <label>
+                                <a style="color: #9e9e9e" href="/send-data?action=offline&data={{ editable[camp_id].id }}">
+                                {% if editable[camp_id].offline %}
+                                <input type="checkbox" checked name="{{editable[camp_id].id}}-offline" onchange="this.form.submit()">
+                                {% else %}
+                                <input type="checkbox" name="{{editable[camp_id].id}}-offline" onchange="this.form.submit()">
+                                {% endif %}
+                                <span class="lever"></span>
+                                </a>
+                            </label>
+                          </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <div class="row">
+                <div class="col s1">
+                    <button type="submit" class="waves-effect waves-light teal darken-2 btn" style="margin-top:10%" name="save" value="save">
+                        Zapisz
+                    </button>
+                </div>
+                <div class="col s10 center">
+                    <ul class="pagination">
+                        {% if session.get('page') == session.get('min_page') %}
+                            <li class="disabled">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                                <a href="/send-data?action=page&data=left">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                            </li>
+                            {% for page in session.get("pages") %}
+                                {% if session.get('page') == page %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a href="/send-data?action=page&data={{ page }}">
+                                    {{ page + 1 }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% if session.get('page') == session.get('max_page') %}
+                            <li class="disabled">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="/send-data?action=page&data=right">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col s1">
+                    <button type="submit" class="waves-effect waves-light btn red" style="margin-top:10%" name="clear" value="clear">
+                        Wyczyść
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+<footer style="margin-top:5%" class="page-footer grey lighten-1">
+    <div class="footer-copyright">
+        <div class="container">
+            © 2024 Piotr Baran
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+{% else %}
+<footer style="margin-top:17%" class="page-footer grey lighten-1">
+    <div class="footer-copyright">
+        <div class="container">
+            © 2024 Piotr Baran
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+{% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const elems = document.querySelectorAll('.collapsible');
+      M.Collapsible.init(elems, {
+        accordion: true // Ustawienie na false pozwala na otwieranie wielu sekcji naraz
+      });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+});
+</script>

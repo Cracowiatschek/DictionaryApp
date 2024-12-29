@@ -16,133 +16,139 @@
         {% else %}
         <div style="margin-left:auto; margin-right:auto; width:80em">
         {% endif %}
-            <form id="camp-picker-form" action="/send-data" method="POST" style="justify-content: center; align-items: center;">
-                <div class="row">
-                    <div class="input-field col s7">
-                        {% if session.get("searchPlaceholder") %}
-                            <input placeholder="{{ session.get("searchPlaceholder") }}" id="input-camp-filter" name="filter" type="text" class="validate">
-                        {% else %}
-                            <input placeholder="Wyszukaj" id="input-camp-filter" name="filter" type="text" class="validate">
-                        {% endif %}
-                    </div>
-                    <div class="col s1">
-                        <p>
-                            <label>
-                                {% if session.get("searchRT") %}
-                                    <input type="checkbox" checked="checked" name="rt"/>
-                                {% else %}
-                                    <input type="checkbox" name="rt"/>
-                                {% endif %}
-                                <span>RT</span>
-                            </label>
-                        </p>
-                    </div>
-                    <div class="col s2">
-                        <p>
-                            <label>
-                                {% if session.get("searchBatch") %}
-                                    <input type="checkbox" checked="checked" name="batch"/>
-                                {% else %}
-                                    <input type="checkbox" name="batch"/>
-                                {% endif %}
-                                <span>BATCH</span>
-                            </label>
-                        </p>
-                    </div>
-                    <div class="col s2">
-                        <button type="submit" class="btn waves-effect waves-light blue-grey darken-1" name="filter-button" value="filter-button">
-                            Filtruj
-                        </button>
-                    </div>
-                </div>
-                <div class="horizontal-scroll-container" style="display:flex">
-                    {% for col in range(0, campaigns|length, 10) %}
-                    <div style="margin-left: 1%">
-                        <ul>
-                        {% for camp_id in range(col, [col+10, campaigns|length]|min) %}
-                            {% if campaigns[camp_id].person %}
-                            <li>
-                                <label>
-                                    <a style="color: #9e9e9e" href="/send-data?action=check&data={{ campaigns[camp_id].id }}">
-                                    {% if campaigns[camp_id].checked %}
-                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" checked="checked" name="{{ campaigns[camp_id].id }}">
-                                        <span>
-                                            {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }} [{{campaigns[camp_id].person}}]
-                                        </span>
-                                    {% else %}
-                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
-                                        <span>
-                                            {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }} [{{campaigns[camp_id].person}}]
-                                        </span>
-                                    {% endif %}
-                                    </a>
-                                </label>
-                            </li>
-                            {% else %}
-                            <li>
-                                <label>
-                                    <a style="color: #9e9e9e" href="/send-data?action=check&data={{ campaigns[camp_id].id }}">
-                                    {% if campaigns[camp_id].checked %}
-                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" checked="checked" name="{{ campaigns[camp_id].id }}">
-                                        <span>
-                                            {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }}
-                                        </span>
-                                    {% else %}
-                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
-                                        <span>
-                                            {{ campaigns[camp_id].id }}. {{ campaigns[camp_id].name }}
-                                        </span>
-                                    {% endif %}
-                                    </a>
-                                </label>
-                            </li>
-                            {% endif %}
-                        {% endfor %}
-                        </ul>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div style="text-align: justify" class="row">
-                    {% for camp_id in range(all_campaigns|length) %}
-                        {% if all_campaigns[camp_id].checked %}
-                            <button class="chip">
-                                {{ all_campaigns[camp_id].id }}. {{ all_campaigns[camp_id].name }}
-                                <i class="close material-icons"><a href="/send-data?action=uncheck&data={{ all_campaigns[camp_id].id }}">close</a></i>
-                            </button>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="row">
-                    <div class="col s1">
-                        <button type="submit" name="edit" class="btn waves-effect waves-light blue-grey darken-1" value="edit">
-                            Edytuj
-                        </button>
-                    </div>
-                    <div class="col s1 offset-s9">
-                        <button type="submit" name="clear" class="btn waves-effect waves-light blue-grey darken-1" value="clear">
-                            Wyczyść
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <ul class="collapsible">
+                <a href="/pick-data?action=show">
+                {% if session.get('pick_active') %}
+                    <li class="active">
+                    {% else %}
+                    <li>
+                    {% endif %}
+                        <div class="collapsible-header">
+                            <i class="material-icons">assignment_turned_in</i>Wybierz elementy
+                        </div>
+                        <div class="collapsible-body">
+                            <form id="camp-picker-form" action="/pick-data" method="POST" style="justify-content: center; align-items: center;">
+                                <div class="row">
+                                    <div class="input-field col s7">
+                                        {% if session.get("searchPlaceholder") %}
+                                            <input placeholder="{{ session.get("searchPlaceholder") }}" id="input-camp-filter" name="filter" type="text" class="validate">
+                                        {% else %}
+                                            <input placeholder="Wyszukaj" id="input-camp-filter" name="filter" type="text" class="validate">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col s1">
+                                        <p>
+                                            <label>
+                                                {% if session.get("searchRT") %}
+                                                    <input type="checkbox" checked="checked" name="rt"/>
+                                                {% else %}
+                                                    <input type="checkbox" name="rt"/>
+                                                {% endif %}
+                                                <span>RT</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s2">
+                                        <p>
+                                            <label>
+                                                {% if session.get("searchBatch") %}
+                                                    <input type="checkbox" checked="checked" name="batch"/>
+                                                {% else %}
+                                                    <input type="checkbox" name="batch"/>
+                                                {% endif %}
+                                                <span>BATCH</span>
+                                            </label>
+                                        </p>
+                                    </div>
+                                    <div class="col s2">
+                                        <button type="submit" class="btn waves-effect waves-light blue-grey darken-1" name="filter-button" value="filter-button">
+                                            Filtruj
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="horizontal-scroll-container" style="display:flex">
+                                    {% for col in range(0, campaigns|length, 10) %}
+                                    <div style="margin-left: 1%">
+                                        <ul>
+                                        {% for camp_id in range(col, [col+10, campaigns|length]|min) %}
+                                            {% if campaigns[camp_id].person %}
+                                            <li>
+                                                <label>
+                                                    <a style="color: #9e9e9e" href="/pick-data?action=check&data={{ campaigns[camp_id].id }}">
+                                                    {% if campaigns[camp_id].checked %}
+                                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" checked="checked" name="{{ campaigns[camp_id].id }}">
+                                                        <span>
+                                                            {{ camp_id + 1 }}. {{ campaigns[camp_id].name }} [{{campaigns[camp_id].person}}]
+                                                        </span>
+                                                    {% else %}
+                                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
+                                                        <span>
+                                                            {{ camp_id + 1 }}. {{ campaigns[camp_id].name }} [{{campaigns[camp_id].person}}]
+                                                        </span>
+                                                    {% endif %}
+                                                    </a>
+                                                </label>
+                                            </li>
+                                            {% else %}
+                                            <li>
+                                                <label>
+                                                    <a style="color: #9e9e9e" href="/pick-data?action=check&data={{ campaigns[camp_id].id }}">
+                                                    {% if campaigns[camp_id].checked %}
+                                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" checked="checked" name="{{ campaigns[camp_id].id }}">
+                                                        <span>
+                                                            {{ camp_id + 1}}. {{ campaigns[camp_id].name }}
+                                                        </span>
+                                                    {% else %}
+                                                        <input id="{{ campaigns[camp_id].id }}" type="checkbox" name="{{ campaigns[camp_id].id }}">
+                                                        <span>
+                                                            {{ camp_id + 1 }}. {{ campaigns[camp_id].name }}
+                                                        </span>
+                                                    {% endif %}
+                                                    </a>
+                                                </label>
+                                            </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div style="text-align: justify" class="row">
+                                    {% for camp_id in range(all_campaigns|length) %}
+                                        {% if all_campaigns[camp_id].checked %}
+                                            <div class="chip valign" style="text-align:center">
+                                                {{ all_campaigns[camp_id].name }}
+                                                <i class="close material-icons"><a href="/pick-data?action=uncheck&data={{ all_campaigns[camp_id].id }}">close</a></i>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="row">
+                                    <div class="col s1">
+                                        <button type="submit" name="edit" class="btn waves-effect waves-light blue-grey darken-1" value="edit">
+                                            Edytuj
+                                        </button>
+                                    </div>
+                                    <div class="col s1 offset-s9">
+                                        <button type="submit" name="clear" class="btn waves-effect waves-light blue-grey darken-1" value="clear">
+                                            Wyczyść
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                </a>
+            </ul>
         </div>
     </div>
 </div>
 
-<!--        {% if session.get("loading-table") %}-->
-<!--            {% if session.get("table-off") %}-->
-<!--            {% else %}-->
-<!--            <meta http-equiv="refresh" content="1;url={{ url_for('get_data') }}">-->
-<!--            <div style="margin-top: 10%" class="progress">-->
-<!--                <div class="indeterminate"></div>-->
-<!--            </div>-->
-<!--            {% endif %}-->
-<!--        {% else %}-->
+{% include "data.html" %}
 
-<!--        {% endif %}-->
-<!--</div>-->
-    {% else %}
-    <p>Zaloguj się, aby pobrać dane.</p>
-    {% endif %}
+{% else %}
+<p>Zaloguj się, aby pobrać dane.</p>
+{% endif %}
+
 <!--</div>-->
 {% endblock %}

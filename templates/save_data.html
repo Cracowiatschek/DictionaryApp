@@ -30,7 +30,11 @@
 
     <!-- Miejsce na zawartość strony -->
     <div class="container" style="margin-top: 20px;">
-        {% block content %}{% endblock %}
+        <h3 style="margin-top: 21%" class="center">Trwa zapisywanie zawartości</h3>
+        <meta http-equiv="refresh" content="1;url={{ url_for('save_data') }}">
+            <div style="margin-top: 10%" class="progress">
+                <div class="indeterminate"></div>
+            </div>
     </div>
 
     <!-- Dodaj MaterializeJS -->

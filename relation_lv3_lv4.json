@@ -1,0 +1,30 @@
+{
+  "Standard": [
+    "Cash-back",
+    "Brak"
+  ],
+  "Promocja": [
+    "Rescue",
+    "Special-price",
+    "Wróć do koszyka",
+    "Brak"
+  ],
+  "Follow-back": [
+    "Rescue",
+    "Brak"
+  ],
+  "Nieznany użytkownik": [
+    "Rozpoznanie",
+    "Onboarding",
+    "Brak"
+  ],
+  "Brak": [
+    "Brak"
+  ],
+  "Dokumenty": [
+    "Brak"
+  ],
+  "Powiadomienie": [
+    "Brak"
+  ]
+}

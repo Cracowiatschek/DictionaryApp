@@ -1,0 +1,26 @@
+{
+  "Aplikacja": [
+    "Standard",
+    "Promocja",
+    "Follow-back",
+    "Brak"
+  ],
+  "WWW": [
+    "Promocja",
+    "Standard",
+    "Nieznany użytkownik",
+    "Brak"
+  ],
+  "Email": [
+    "Dokumenty",
+    "Brak"
+  ],
+  "SMS": [
+    "Powiadomienie",
+    "Przypomnienie",
+    "Brak"
+  ],
+  "Brak": [
+    "Brak"
+  ]
+}

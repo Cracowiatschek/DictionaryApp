@@ -1,0 +1,17 @@
+{
+  "Sprzedaż": [
+    "Aplikacja",
+    "WWW",
+    "Brak"
+  ],
+  "Informacja": [
+    "Aplikacja",
+    "WWW",
+    "Email",
+    "SMS",
+    "Brak"
+  ],
+  "Brak": [
+    "Brak"
+  ]
+}
